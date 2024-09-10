@@ -9,12 +9,27 @@ var usersRouter = require('./routes/users');
 var participantsRouter = require('./routes/participants');  // Ensure 'participants.js' matches the case
 // Ensure case matches
 
+const userService = require('./services/userServices');
+
 const auth = require('./middleware/auth');
 
 var db = require("./models/index");
 db.sequelize.sync({ force: false })
-  .then(() => {
+  .then(async () => {
     console.log('Database connected successfully');
+
+    // Admin credentials
+    const adminUsername = 'admin';
+    const adminPassword = 'P4ssword';
+
+    // Check if the admin user already exists
+    const existingAdmin = await userService.findUserByUsername(adminUsername);
+    if (!existingAdmin) {
+      await userService.createUser(adminUsername, adminPassword);
+      console.log('Admin user created successfully');
+    } else {
+      console.log('Admin user already exists');
+    }
   })
   .catch(err => {
     console.error('Database connection error:', err);
