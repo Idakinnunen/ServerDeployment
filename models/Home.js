@@ -17,7 +17,7 @@ module.exports = (sequelize, Sequelize) => {
     );
   
     Home.associate = function (models) {
-      Home.belongsTo(models.Participant, { foreignKey: { allowNull: false } });
+      Home.belongsTo(models.participant, { foreignKey: { allowNull: false } });
     };
   
     return Home;

@@ -21,7 +21,7 @@ module.exports = (sequelize, Sequelize) => {
     );
   
     Work.associate = function (models) {
-      Work.belongsTo(models.Participant, { foreignKey: { allowNull: false } });
+      Work.belongsTo(models.participant, { foreignKey: { allowNull: false } });
     };
   
     return Work;

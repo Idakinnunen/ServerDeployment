@@ -1,6 +1,6 @@
 module.exports = (sequelize, Sequelize) => {
-    const Participant = sequelize.define(
-      'Participant',
+    const participant = sequelize.define(
+      'participant',
       {
         email: {
           type: Sequelize.DataTypes.STRING,
@@ -25,11 +25,11 @@ module.exports = (sequelize, Sequelize) => {
       }
     );
   
-    Participant.associate = function (models) {
-      Participant.hasOne(models.Work, { foreignKey: { allowNull: false } });
-      Participant.hasOne(models.Home, { foreignKey: { allowNull: false } });
+    participant.associate = function (models) {
+      participant.hasOne(models.Work, { foreignKey: { allowNull: false } });
+      participant.hasOne(models.Home, { foreignKey: { allowNull: false } });
     };
   
-    return Participant;
+    return participant;
   };
   
