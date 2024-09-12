@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { Participant, Work, Home } = require('../models');
 const authenticateAdmin = require('../middleware/auth');
+const ParticipantServices = require('../services/ParticipantServices');
 
 // Define routes here
 router.get('/', (req, res) => {
@@ -48,6 +49,15 @@ router.post('/add', authenticateAdmin, async (req, res) => {
         res.status(201).json(participant);
     } catch (err) {
         res.status(500).json({ error: 'Failed to add participant' });
+    }
+});
+
+router.get ('/details', authenticateAdmin, async (req, res) => {
+    try {
+        const participants = await ParticipantServices.getAllParticipantDetails();
+        res.status(200).json(participants);
+    } catch (error) {
+        res.status (500).json({ error: 'Failed to fetch participants details'});
     }
 });
 

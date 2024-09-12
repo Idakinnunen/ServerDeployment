@@ -13,7 +13,16 @@ class ParticipantService {
             throw new Error('Failed to create participant');
         }
     }
-
+    async getAllParticipantDetails() {
+        try {
+            const participants = await Participant.findAll({
+                attributes: ['firstname', 'lastname'] // Select only first name and last name
+            });
+            return participants;
+        } catch (error) {
+            throw new Error('Failed to fetch participant details');
+        }
+    }
     // Fetch all participants with work and home details
     async getAllParticipants() {
         try {

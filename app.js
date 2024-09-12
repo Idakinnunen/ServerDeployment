@@ -6,7 +6,7 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var participantsRouter = require('./routes/participants');  // Ensure 'participants.js' matches the case
+var participantsRouter = require('./routes/participants');  
 // Ensure case matches
 
 const userService = require('./services/userServices');
