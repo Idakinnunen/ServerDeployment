@@ -1,35 +1,18 @@
-module.exports = (sequelize, Sequelize) => {
-    const participant = sequelize.define(
-      'participant',
-      {
-        email: {
-          type: Sequelize.DataTypes.STRING,
-          unique: true,
-          allowNull: false
-        },
-        firstname: {
-          type: Sequelize.DataTypes.STRING,
-          allowNull: false
-        },
-        lastname: {
-          type: Sequelize.DataTypes.STRING,
-          allowNull: false
-        },
-        dob: {
-          type: Sequelize.DataTypes.DATEONLY,
-          allowNull: false
-        }
-      },
-      {
-        timestamps: false
-      }
-    );
-  
-    participant.associate = function (models) {
-      participant.hasOne(models.Work, { foreignKey: { allowNull: false } });
-      participant.hasOne(models.Home, { foreignKey: { allowNull: false } });
-    };
-  
-    return participant;
+module.exports = (sequelize, DataTypes) => {
+  const Participant = sequelize.define('Participant', {
+      email: DataTypes.STRING,
+      firstname: DataTypes.STRING,
+      lastname: DataTypes.STRING,
+      dob: DataTypes.DATEONLY,
+  }, {
+      tableName: 'participants',
+      timestamps: false,
+  });
+
+  Participant.associate = (models) => {
+      Participant.hasMany(models.Work, { foreignKey: 'ParticipantId', as: 'workDetails' });
+      Participant.hasMany(models.Home, { foreignKey: 'ParticipantId', as: 'homeDetails' });
   };
-  
+
+  return Participant;
+};

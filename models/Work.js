@@ -1,29 +1,19 @@
-module.exports = (sequelize, Sequelize) => {
-    const Work = sequelize.define(
-      'Work',
-      {
-        companyname: {
-          type: Sequelize.DataTypes.STRING,
-          allowNull: false
-        },
-        salary: {
-          type: Sequelize.DataTypes.FLOAT,
-          allowNull: false
-        },
-        currency: {
-          type: Sequelize.DataTypes.STRING,
-          allowNull: false
-        }
-      },
-      {
-        timestamps: false
+module.exports = (sequelize, DataTypes) => {
+  const Work = sequelize.define('Work', {
+      companyname: DataTypes.STRING,
+      salary: DataTypes.FLOAT,
+      currency: DataTypes.STRING,
+      ParticipantId: {
+          type: DataTypes.INTEGER,
+          references: {
+              model: 'participants', // references the participants table
+              key: 'id'
+          }
       }
-    );
-  
-    Work.associate = function (models) {
-      Work.belongsTo(models.participant, { foreignKey: { allowNull: false } });
-    };
-  
-    return Work;
-  };
-  
+  }, {
+      tableName: 'works',
+      timestamps: false,
+  });
+
+  return Work;
+};
