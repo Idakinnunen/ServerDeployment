@@ -63,21 +63,24 @@ router.get('/details', authenticateAdmin, async (req, res) => {
 /* Fetch a specific participant's personal details */
 router.get('/details/:email', authenticateAdmin, async (req, res) => {
     const { email } = req.params;
+    console.log(`Fetching details for participant with email: ${email}`);
     try {
-        const participant = await participantService.getParticipantByEmail(email);
-        if (participant) {
+        const participants = await participantService.getParticipantByEmail(email);
+        if (participants) {
             res.status(200).json({
-                firstname: participant.firstname,
-                lastname: participant.lastname,
-                active: participant.active
+                firstname: participants.firstname,
+                lastname: participants.lastname,
+                active: participants.active
             });
         } else {
             res.status(404).json({ error: 'Participant not found' });
-        }
+        } 
     } catch (error) {
+        console.error('Failed to fetch participant details:', error.message);
         res.status(500).json({ error: 'Failed to fetch participant details' });
     }
 });
+
 
 /* Fetch a specific participant's work details */
 router.get('/work/:email', authenticateAdmin, async (req, res) => {

@@ -60,18 +60,21 @@ class ParticipantService {
         }
     }
 
-    // Fetch participant by email with associated work and home details
-    async getParticipantByEmail(email) {
-        try {
-            const participant = await this.Participant.findOne({
-                where: { email },
-                include: [this.Work, this.Home],
-            });
-            return participant;
-        } catch (error) {
-            throw new Error(`Error fetching participant: ${error.message}`);
-        }
+  
+// Example method
+async getParticipantByEmail(email) {
+    try {
+        const participant = await this.Participant.findOne({
+            where: { email },
+            include: [this.Work, this.Home],
+        });
+        return participant;
+    } catch (error) {
+        throw new Error(`Error fetching participant: ${error.message}`);
     }
+}
+
+
 
     // Update participant details including work and home
     async updateParticipant(email, { firstname, lastname, dob, work, home }) {

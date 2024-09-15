@@ -1,13 +1,21 @@
-module.exports = (sequelize, Sequelize) => {
+module.exports = (sequelize, DataTypes) => {
   const Home = sequelize.define(
     'Home',
     {
       country: {
-        type: Sequelize.DataTypes.STRING,
+        type: DataTypes.STRING,
         allowNull: false,
       },
       city: {
-        type: Sequelize.DataTypes.STRING,
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      ParticipantId: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: 'participants', // Reference to the participants table
+          key: 'id',
+        },
         allowNull: false,
       },
     },
@@ -17,7 +25,6 @@ module.exports = (sequelize, Sequelize) => {
   );
 
   Home.associate = function (models) {
-    // Defining the belongsTo association with Participant model
     Home.belongsTo(models.Participant, {
       foreignKey: { allowNull: false },
       onDelete: 'CASCADE', // Cascades deletion to Home when Participant is deleted
