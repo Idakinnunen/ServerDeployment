@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const ParticipantService = require('../services/ParticipantServices');
 const authenticateAdmin = require('../middleware/auth');
+const bodyParser = require('body-parser');
+const jsonParser = bodyParser.json();
 
 // Create an instance of ParticipantService
 const participantService = new ParticipantService();
@@ -11,16 +13,14 @@ router.get('/', (req, res) => {
     res.send('Participants route');
 });
 
-// Add a new participant
-router.post('/add', authenticateAdmin, async (req, res) => {
+/* Add a new participant */
+router.post('/add', jsonParser, authenticateAdmin, async (req, res) => {
     const { email, firstname, lastname, dob, work, home } = req.body;
 
-    // Validate required fields
     if (!email || !firstname || !lastname || !dob || !work || !home) {
         return res.status(400).json({ error: 'All fields are required' });
     }
 
-    // Validate the email and date of birth formats
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const dobRegex = /^\d{4}-\d{2}-\d{2}$/;
 
@@ -40,7 +40,7 @@ router.post('/add', authenticateAdmin, async (req, res) => {
     }
 });
 
-// Fetch all participants
+/* Fetch all participants */
 router.get('/', authenticateAdmin, async (req, res) => {
     try {
         const participants = await participantService.getAllParticipants();
@@ -50,7 +50,7 @@ router.get('/', authenticateAdmin, async (req, res) => {
     }
 });
 
-// Fetch all participants' personal details
+/* Fetch all participants' personal details */
 router.get('/details', authenticateAdmin, async (req, res) => {
     try {
         const participants = await participantService.getAllParticipants();
@@ -60,7 +60,7 @@ router.get('/details', authenticateAdmin, async (req, res) => {
     }
 });
 
-// Fetch a specific participant's personal details
+/* Fetch a specific participant's personal details */
 router.get('/details/:email', authenticateAdmin, async (req, res) => {
     const { email } = req.params;
     try {
@@ -79,7 +79,7 @@ router.get('/details/:email', authenticateAdmin, async (req, res) => {
     }
 });
 
-// Fetch a specific participant's work details
+/* Fetch a specific participant's work details */
 router.get('/work/:email', authenticateAdmin, async (req, res) => {
     const { email } = req.params;
     try {
@@ -101,7 +101,7 @@ router.get('/work/:email', authenticateAdmin, async (req, res) => {
     }
 });
 
-// Fetch a specific participant's home details
+/* Fetch a specific participant's home details */
 router.get('/home/:email', authenticateAdmin, async (req, res) => {
     const { email } = req.params;
     try {
@@ -123,7 +123,7 @@ router.get('/home/:email', authenticateAdmin, async (req, res) => {
     }
 });
 
-// Delete a participant
+/* Delete a participant */
 router.delete('/:email', authenticateAdmin, async (req, res) => {
     const { email } = req.params;
     try {
@@ -134,17 +134,15 @@ router.delete('/:email', authenticateAdmin, async (req, res) => {
     }
 });
 
-// Update a participant
-router.put('/:email', authenticateAdmin, async (req, res) => {
+/* Update a participant */
+router.put('/:email', authenticateAdmin, jsonParser, async (req, res) => {
     const { email } = req.params;
     const { firstname, lastname, dob, work, home } = req.body;
 
-    // Validate required fields
     if (!firstname || !lastname || !dob || !work || !home) {
         return res.status(400).json({ error: 'All fields are required' });
     }
 
-    // Validate the date of birth format
     const dobRegex = /^\d{4}-\d{2}-\d{2}$/;
     if (!dobRegex.test(dob)) {
         return res.status(400).json({ error: 'Invalid date format. Use YYYY-MM-DD' });
