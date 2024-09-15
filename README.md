@@ -1,6 +1,8 @@
 # ServerDeployment
 .env info
 
+npm install sequelize needed
+
 ADMIN_USERNAME = avnadmin
 ADMIN_PASSWORD = AVNS_INBPGE52B98owffvaAj
 DATABASE_NAME = defaultdb
